@@ -1,3 +1,4 @@
+//step 0 npm init -y
 // Step 1 - Import Express
 const express = require("express");
 
