@@ -38,27 +38,27 @@ app.post("/create", (req, res) => {
   stdata.push(payload);
   console.log(stdata);
 
-// partially updating the value thorugh spread operator (...)
+  // partially updating the value thorugh spread operator (...)
   app.patch("/create", (req, res) => {
-  const payload = req.body;
-  console.log(payload);
-  const data = JSON.parse(fs.readFileSync("./1.json", "utf-8"));
+    const payload = req.body;
+    console.log(payload);
+    const data = JSON.parse(fs.readFileSync("./1.json", "utf-8"));
 
-  const stdata = data.student;
-  console.log(stdata);
-  stdata.push(payload);
-  console.log(stdata);
+    const stdata = data.student;
+    console.log(stdata);
+    stdata.push(payload);
+    console.log(stdata);
 
     const updatedData = stdata.map((el) => {
-    if (el.id == req.params.id) {
-      return {...el, ...payload};
-    };
+      if (el.id == req.params.id) {
+        return { ...el, ...payload };
+      }
 
-  fs.writeFileSync("./1.json", JSON.stringify(data));
-  res.send({ msg: "new student added successfully" });
+      fs.writeFileSync("./1.json", JSON.stringify(data));
+      res.send({ msg: "new student added successfully" });
 
-  res.send({ msg: "New student created successfully" });
-});
+      res.send({ msg: "New student created successfully" });
+    });
   });
 });
 app.patch("/update/:id", (req, res) => {
