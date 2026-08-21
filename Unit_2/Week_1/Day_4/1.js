@@ -56,10 +56,14 @@ app.post("/create", (req, res) => {
 
   res.send({ msg: "New Student created" });
 });
+
+app.put("/update",(req,res)=>{
+    req.send({msg:"student record updated"})
+})
 // S-4- Run app
 app.listen(8080, () => {
   console.log("Server is running on port 8080");
 });
 
-
+// methods of sent request data
 // #1.query parameter  2.body parameter 3.request parameter ...
