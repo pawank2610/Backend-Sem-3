@@ -60,3 +60,6 @@ app.post("/create", (req, res) => {
 app.listen(8080, () => {
   console.log("Server is running on port 8080");
 });
+
+
+// #1.query parameter  2.body parameter 3.request parameter ...
