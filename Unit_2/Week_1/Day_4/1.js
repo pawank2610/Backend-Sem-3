@@ -1,69 +1,83 @@
-// Express js is fast
-// unoptinited code
-// minimalist code
-// nodejs setup- npm init -y, npm i express,npm i nodemon
-// npm run server
-
-// S-1- Import
+// step-1
+const { log } = require("console");
 const express = require("express");
-const fs = require("fs");
-// S-2- Create app
-const app = express();
-// middleware- request body parser
+const fs = require ("fs");
+// step-2
+const app = express()
+// middleware --> req.body --> parse
 app.use(express.json());
-// S-3- Create api/routes
-app.get("/", (req, res) => {
-  res.send({ msg: "Wlcome to my Website " });
-});
-app.get("/about", (req, res) => {
-  res.send({ msg: "About Page" });
-});
-app.get("/contact", (req, res) => {
-  res.send({ msg: "Contact Page" });
+
+// step-3 Routes/Api
+app.get("/",(req,res) => {
+    res.send({ msg: "welcome to exprrss server"})
 });
 
-// get API/Read Route
-app.get("/Read", (req, res) => {
-  const data = fs.readFileSync("1.json", "utf-8");
-  console.log(data);
-  console.log(data.students);
-
-  const jsData = JSON.parse(data);
-  console.log(jsData);
-  res.send({ msg: "Read Page" });
-});
-// app.get("/stread", (req, res) => {
-//   const data = fs.readFileSync("1.json", "utf-8");
-//   console.log(data);
-//   console.log(data.students);
-
-//   const jsData = JSON.parse(data);
-//   console.log(jsData.students);
-//   res.send({ msg: "Services Page" });
-// });
-
-// Adding new data-
-app.post("/create", (req, res) => {
-  const payload = req.body;
-  console.log(payload);
-  const data = JSON.parse(fs.readFileSync("1.json", "utf-8"));
-  const stdata = data.students;
-  stdata.push(payload);
-  console.log(stdata);
-  data.students = stdata;
-
-  fs.writeFileSync("1.json", JSON.stringify(data));
-
-  res.send({ msg: "New Student created" });
+app.get("/home",(req,res) => {
+    res.send({ msg: "welcome to home page"})
 });
 
-app.put("/update",(req,res)=>{
-    req.send({msg:"student record updated"})
+app.get("/read",(req,res) => {
+    const data = fs.readFileSync("./1.json","utf-8");
+    // console.log(data, typeod data);
+
+    // converting json data --- parse ---> js object
+    const jsData = JSON.parse(data);
+    console.log(jsData, typeof jsdata);
+
+    console.log(jsData)
+    
+        res.send({ data: jsData})
+});
+app.post("/create",(req,res) =>{
+    const payload = req.body;
+    console.log(payload);
+    const data = JSON.parse(fs.readFileSync("./1.json", "utf-8"));
+
+    const stdata = data.student;
+    console.log(stdata);
+    stdata.push(payload);
+    console.log(stdata);
+
+    fs.writeFileSync ("./1.json", JSON.stringify(data));
+    res.send({msg:"new student added successfully"});
+
+    res.send({msg: "New student created successfully"});
+
+});
+
+app.put("/update/:id", (req,res) => {
+    const payload = req.body;
+
+    const id = req.params;
+    console.log(id);
+
+    const data = JSON.parse(fs.readFileSync("./1.json", "utf-8"));
+
+    const stdata = data.student;
+    console.log(stdata);
+
+    const updatedData = stdata.map((el) => {
+        if (el.id == req.params.id){
+            return payload;
+        } else return el;
+ });
+ console.log(updatedData);
+ data.student = updatedData;
+ fs.writeFileSync("./1.json", JSON.stringify(data));
+
+ res.send({ msg: "student record updated"});
 })
-// S-4- Run app
+
+
+
 app.listen(8080, () => {
-  console.log("Server is running on port 8080");
+    console.log("Server started")
 });
 
-// methods of sent request data
-// #1.query parameter  2.body parameter 3.request parameter ...
+
+// post ---> add, create krna 
+
+// client 3 tarike se client server se baat chit krta hai  (req bhejta hai) 
+// 1. query parameter (most popular ) [www.google.com/?color=black& size=32]
+// body parameter (req.body)
+// req.params (/:id)[react router dom mein padha tha dynamic routing mein ]
